@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { background: #0f0f0f; color: white; font-family: sans-serif; text-align: center; margin: 0; padding: 20px; }
+        .box { background: #1a1a1a; padding: 30px; border-radius: 15px; border: 2px solid #00f2ff; max-width: 350px; margin: auto; }
+        h1 { color: #00f2ff; text-shadow: 0 0 10px #00f2ff; }
+        input { width: 90%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #222; color: white; }
+        button { width: 95%; padding: 12px; background: #00f2ff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .hidden { display: none; }
+        .coin-icon { color: #ffd700; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div id="login-screen" class="box">
+        <h1>VORTEX.ZIP</h1>
+        <p>Crie sua identidade global</p>
+        <input type="text" id="username" placeholder="Seu Nickname">
+        <button onclick="entrarNoImperio()">CRIAR CONTA / ENTRAR</button>
+    </div>
+
+    <div id="profile-screen" class="box hidden">
+        <h1>MEU PERFIL</h1>
+        <p>Bem-vindo, <span id="display-name" style="color:#00f2ff"></span>!</p>
+        <hr border="1" color="#333">
+        <div style="font-size: 20px; margin: 20px 0;">
+            Saldo: <span class="coin-icon">V$ 1.000</span>
+        </div>
+        <p>Status: <span style="color: lime;">Admin / Owner</span></p>
+        <button onclick="window.location.reload()" style="background: #ff4444;">SAIR</button>
+    </div>
+
+    <script>
+        // Função para trocar de tela e "salvar"
+        function entrarNoImperio() {
+            const nick = document.getElementById('username').value;
+            
+            if(nick.length < 3) {
+                alert("O nick precisa de pelo menos 3 letras, patrão!");
+                return;
+            }
+
+            // Simulação de salvamento (Aqui entraria o código do Firebase)
+            localStorage.setItem('vortex_user', nick);
+            
+            mostrarPerfil(nick);
+        }
+
+        function mostrarPerfil(nick) {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('profile-screen').classList.remove('hidden');
+            document.getElementById('display-name').innerText = nick;
+        }
+
+        // Verifica se já estava logado ao abrir o site
+        window.onload = () => {
+            const savedUser = localStorage.getItem('vortex_user');
+            if(savedUser) mostrarPerfil(savedUser);
+        }
+    </script>
+
+</body>
+</html>
